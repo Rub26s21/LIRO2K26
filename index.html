@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071013">
+  <meta name="description" content="LiRO 2K26 — Intercollege Line Follower Robot Competition at V.S.B. Engineering College, Karur.">
+  <title>LiRO 2K26 | Think. Build. Race.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #061014;
+      --ink-2: #09171b;
+      --panel: #0c1e24;
+      --panel-2: #10262e;
+      --cream: #f1efe8;
+      --muted: #8aa3a7;
+      --lime: #00e5ff;
+      --cyan: #00e5ff;
+      --aqua: #38bdf8;
+      --orange: #ff835d;
+      --line: rgba(0,229,255,.24);
+      --border: rgba(255,255,255,.11);
+      --mono: "DM Mono", monospace;
+      --display: "Space Grotesk", sans-serif;
+      --body: "Manrope", sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--body);
+      overflow-x: hidden;
+      line-height: 1.55;
+    }
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .035;
+      z-index: 20;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin: auto; }
+    .mono { font-family: var(--mono); }
+    .eyebrow {
+      color: var(--lime); font: 500 11px var(--mono); letter-spacing: .18em;
+      text-transform: uppercase; display: flex; align-items: center; gap: 11px;
+    }
+    .eyebrow:before { content: ""; width: 24px; height: 1px; background: var(--lime); }
+    h1,h2,h3 { font-family: var(--display); line-height: .98; letter-spacing: -.055em; }
+    h2 { font-size: clamp(42px, 6vw, 78px); max-width: 770px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      min-height: 52px; padding: 0 23px; border: 1px solid var(--lime);
+      color: var(--ink); background: var(--lime); font-weight: 800; font-size: 13px;
+      text-transform: uppercase; letter-spacing: .08em; transition: .3s ease; cursor: pointer;
+    }
+    .btn:hover { background: transparent; color: var(--lime); transform: translateY(-3px); box-shadow: 0 10px 35px rgba(0,229,255,.22); }
+    .btn.alt { color: var(--cream); background: transparent; border-color: var(--border); }
+    .btn.alt:hover { border-color: var(--lime); color: var(--lime); }
+    .nav {
+      height: 72px; display:flex; align-items:center; justify-content:space-between;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; gap: 20px;
+      background: rgba(6,16,20,0.92); backdrop-filter: blur(20px) saturate(1.4);
+    }
+    .brand-wrap { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .college-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .college-logo-img { width:40px; height:40px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.35)); }
+    .college-info { display:flex; flex-direction:column; }
+    .college-name { font:800 14px var(--display); letter-spacing:-.02em; color:var(--cream); line-height:1.15; }
+    .college-sub { font:500 9px var(--mono); color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    .brand-divider { width:1px; height:28px; background:var(--border); }
+    .event-brand { display:flex; align-items:center; gap:10px; font:800 18px var(--display); letter-spacing:-.04em; }
+    .club-logo-img { width:32px; height:32px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(0,229,255,0.35)); }
+    .nav-links { display:flex; gap:22px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:500; }
+    .nav-links a { transition: color .25s; }
+    .nav-links a:hover { color:var(--lime); }
+    .menu { display:none; background:none; color:var(--cream); border:0; font-size:25px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      position:relative; display:flex; align-items:center;
+      overflow:hidden; min-height: calc(100vh - 72px); padding: 0;
+    }
+    #liquid { position:absolute; inset:0; width:100%; height:100%; opacity:.5; }
+    /* Circuit grid pattern */
+    .hero:before {
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+      opacity: .04;
+      background-image:
+        linear-gradient(rgba(0,229,255,.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.3) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 0%, transparent 100%);
+    }
+    .hero:after {
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:1;
+      background:
+        radial-gradient(ellipse 55% 55% at 30% 50%, rgba(0,229,255,.06) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 45% at 75% 40%, rgba(56,189,248,.04) 0%, transparent 70%),
+        radial-gradient(circle at 50% 120%, rgba(6,16,20,.95) 0%, transparent 60%);
+    }
+    /* Floating accent shapes */
+    .hero-accent-ring {
+      position:absolute; border:1px solid rgba(0,229,255,.1); border-radius:50%; pointer-events:none; z-index:1;
+    }
+    .hero-accent-ring.r1 { width:420px; height:420px; top:-100px; right:-120px; animation: float-ring 22s ease-in-out infinite; }
+    .hero-accent-ring.r2 { width:280px; height:280px; bottom:-60px; left:-80px; animation: float-ring 18s ease-in-out infinite reverse; border-color: rgba(56,189,248,.07); }
+    .hero-accent-ring.r3 { width:140px; height:140px; top:25%; left:6%; animation: float-ring 14s ease-in-out infinite; border-color: rgba(0,229,255,.05); }
+    @keyframes float-ring { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(12px,-16px) rotate(6deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
+
+    .hero-inner { position:relative; z-index:2; width:100%; }
+    /* Two-column split layout */
+    .hero-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px;
+      align-items: center; padding: 32px 0 28px;
+    }
+
+    /* ── LEFT: Visual focal point ── */
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; text-align: center; gap: 0; min-height: 100%;
+    }
+    .hero-trust-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 40px;
+      background: rgba(0,229,255,.05); border: 1px solid rgba(0,229,255,.16);
+      font: 500 10px var(--mono); color: var(--lime); letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: 12px; backdrop-filter: blur(8px);
+      animation: trust-glow 3s ease-in-out infinite;
+    }
+    .hero-trust-badge .trust-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--lime);
+      box-shadow: 0 0 8px var(--lime); animation: pulse 1.6s infinite;
+    }
+    @keyframes trust-glow { 0%,100% { box-shadow: 0 0 12px rgba(0,229,255,.06); } 50% { box-shadow: 0 0 22px rgba(0,229,255,.14); } }
+
+    /* Big event type label */
+    .hero-event-type {
+      font: 800 clamp(13px, 1.6vw, 17px) var(--display); color: var(--cream);
+      letter-spacing: .12em; text-transform: uppercase; line-height: 1.4;
+      margin-bottom: 8px; opacity: .75; text-align: center;
+    }
+
+    .hero-title-wrap { margin: 0; width: 100%; display: flex; justify-content: center; }
+    .hero-title-img {
+      width: 100%; max-width: 100%; height: auto; display: block;
+      margin: 0 auto;
+      position: relative; left: 115px;
+      filter: drop-shadow(0 0 50px rgba(0,229,255,0.5)) drop-shadow(0 0 100px rgba(0,229,255,0.2));
+      animation: hero-float 6s ease-in-out infinite;
+    }
+    @keyframes hero-float { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.01); } }
+    .hero-tagline {
+      font: 600 11px var(--mono); color: var(--muted); letter-spacing: .18em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; width: 100%; text-align: center;
+    }
+    .hero-tagline span { color: var(--lime); }
+    .hero-tagline:before, .hero-tagline:after { content: ""; width: 20px; height: 1px; background: var(--lime); opacity: .7; }
+
+    /* Institution branding below title */
+    .hero-institution {
+      margin-top: 16px; padding: 10px 20px;
+      background: rgba(0,229,255,.04); border: 1px solid rgba(0,229,255,.14);
+      border-radius: 40px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      backdrop-filter: blur(8px);
+    }
+    .hero-institution img {
+      width: 34px; height: 34px; object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(0,229,255,0.3));
+    }
+    .hero-institution-info { display: flex; flex-direction: column; text-align: left; }
+    .hero-institution-name {
+      font: 700 13px var(--display); color: var(--cream); letter-spacing: .02em;
+    }
+    .hero-institution-sub {
+      font: 500 9px var(--mono); color: var(--muted); letter-spacing: .1em;
+      text-transform: uppercase; margin-top: 2px;
+    }
+    /* Event date highlight */
+    .hero-event-date {
+      margin-top: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+      font: 700 13px var(--mono); color: var(--lime); letter-spacing: .08em;
+      padding: 6px 16px; border-radius: 12px; background: rgba(0,229,255,0.03);
+    }
+    .hero-event-date .date-num {
+      font: 800 32px var(--display); color: var(--lime); line-height: 1;
+      letter-spacing: -.02em;
+    }
+    .hero-event-date .date-label {
+      display: flex; flex-direction: column; line-height: 1.25; text-align: left;
+    }
+    .hero-event-date .date-label span:first-child {
+      font: 700 13px var(--display); color: var(--cream); text-transform: uppercase;
+    }
+    .hero-event-date .date-label span:last-child {
+      font: 500 10px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .1em;
+    }
+
+    /* ── RIGHT: Conversion content ── */
+    .hero-right {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .hero-headline {
+      font: 800 clamp(32px, 4vw, 52px) var(--display); letter-spacing: -.05em;
+      color: var(--cream); line-height: 1.05; margin-bottom: 12px;
+    }
+    .hero-headline em { font-style: normal; color: var(--lime); }
+    .hero-subtitle {
+      font: 400 15px var(--body); color: var(--muted); max-width: 440px;
+      line-height: 1.6; margin-bottom: 20px;
+    }
+    .hero-subtitle strong { color: var(--cream); font-weight: 600; }
+
+    /* Stats pills */
+    .hero-stats {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
+    }
+    .hero-stat-pill {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px; background: rgba(12,30,36,.7);
+      border: 1px solid var(--border); backdrop-filter: blur(8px);
+      transition: border-color .3s, transform .2s;
+    }
+    .hero-stat-pill:hover { border-color: rgba(0,229,255,.3); transform: translateY(-2px); }
+    .hero-stat-pill .pill-val {
+      font: 800 18px var(--display); color: var(--lime); letter-spacing: -.02em; line-height: 1;
+    }
+    .hero-stat-pill .pill-label {
+      font: 500 9px var(--mono); color: var(--muted);
+      letter-spacing: .08em; text-transform: uppercase;
+    }
+
+    /* Compact countdown */
+    .countdown-wrap {
+      margin-bottom: 20px; padding: 14px 18px;
+      background: linear-gradient(135deg, rgba(14,32,36,0.8), rgba(6,16,20,0.9));
+      border: 1px solid rgba(0,229,255,.18); border-radius: 6px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0,229,255,0.05), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .countdown-label {
+      font: 500 10px var(--mono); color: var(--muted); letter-spacing: .12em;
+      text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+    }
+    .countdown-label span { color: var(--lime); font-weight: 700; }
+    .countdown-label:before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--lime); box-shadow: 0 0 8px var(--lime);
+      animation: pulse 1.6s infinite ease-in-out;
+    }
+    .countdown-grid { display: flex; align-items: center; gap: 8px; }
+    .countdown-box {
+      flex: 1; background: rgba(6, 16, 20, 0.85);
+      border: 1px solid rgba(0, 229, 255, 0.12); padding: 10px 6px;
+      text-align: center; border-radius: 4px; transition: border-color .3s, box-shadow .3s;
+    }
+    .countdown-box:hover { border-color: rgba(0,229,255,.3); box-shadow: 0 0 16px rgba(0,229,255,.08); }
+    .countdown-box strong {
+      display: block; font: 700 clamp(22px, 2.5vw, 30px) var(--display);
+      color: var(--lime); line-height: 1; letter-spacing: -0.02em;
+    }
+    .countdown-box small {
+      font: 500 8px var(--mono); color: var(--muted);
+      letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; display: block;
+    }
+    .countdown-sep {
+      font: 700 18px var(--display); color: var(--lime);
+      opacity: 0.45; margin-bottom: 8px;
+    }
+
+    /* Hero CTAs */
+    .hero-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+    }
+    .hero-actions .btn {
+      min-height: 50px; padding: 0 28px; font-size: 13px; border-radius: 4px;
+    }
+    /* Primary CTA — warm orange for maximum contrast & urgency */
+    .hero-actions .btn.primary {
+      background: linear-gradient(135deg, #ff835d, #ff6b3d); color: #fff;
+      border-color: #ff835d; position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(255,131,93,.3), 0 1px 3px rgba(0,0,0,.2);
+      font-weight: 800; letter-spacing: .06em;
+    }
+    .hero-actions .btn.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 35px rgba(255,131,93,.4), 0 2px 6px rgba(0,0,0,.2);
+    }
+    .hero-actions .btn.primary:after {
+      content: ""; position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+      transform: skewX(-25deg); animation: shimmer 3.5s ease-in-out infinite;
+    }
+    @keyframes shimmer { 0%,100% { left: -60%; } 50% { left: 120%; } }
+
+    /* Redesigned Urgency deadline chip */
+    .hero-deadline {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 500 11px var(--mono); color: #ffb899; letter-spacing: .06em;
+      text-transform: uppercase; padding: 6px 16px 6px 8px;
+      background: linear-gradient(135deg, rgba(255,131,93,.14), rgba(255,107,61,.04));
+      border: 1px solid rgba(255,131,93,.32);
+      border-radius: 30px;
+      box-shadow: 0 2px 14px rgba(255,107,61,.12);
+      width: fit-content;
+      backdrop-filter: blur(8px);
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .hero-deadline:hover {
+      border-color: rgba(255,131,93,.6);
+      box-shadow: 0 4px 20px rgba(255,107,61,.2);
+      transform: translateY(-1px);
+    }
+    .deadline-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: linear-gradient(135deg, #ff835d, #ff5722);
+      color: #ffffff; font-weight: 800; font-size: 9px;
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: .08em; box-shadow: 0 0 10px rgba(255,107,61,.4);
+      animation: pulse-badge 2s infinite ease-in-out;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 8px rgba(255,107,61,.4); }
+      50% { transform: scale(1.04); box-shadow: 0 0 16px rgba(255,107,61,.7); }
+    }
+    .deadline-text {
+      color: #ffd0be; font-size: 11px;
+    }
+    .deadline-text strong {
+      color: #ffffff; font-weight: 700; letter-spacing: .04em;
+    }
+
+    /* Venue chip */
+    .hero-date-chip {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 6px;
+      font: 500 11px var(--mono); color: var(--muted); letter-spacing: .06em;
+    }
+    .hero-date-chip span { color: var(--cream); font-weight: 700; }
+    .hero-date-chip i { color: var(--lime); font-style: normal; font-size: 13px; }
+    .marquee { border-block:1px solid var(--border); overflow:hidden; white-space:nowrap; padding:14px 0; color:var(--lime); font:500 12px var(--mono); letter-spacing:.16em; }
+    .marquee-track { display:inline-block; animation:move 25s linear infinite; }
+    .marquee i { color:var(--orange); font-style:normal; margin:0 24px; }
+    @keyframes move { to { transform:translateX(-50%); } }
+    section { padding:75px 0; position:relative; }
+    .intro-grid { display:grid; grid-template-columns:1fr 1.15fr; gap:100px; align-items:start; }
+    .intro-text { color:var(--muted); font-size:18px; max-width:530px; margin-top:28px; }
+    .intro-text b { color:var(--cream); }
+    .stats { display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--border); margin-top:45px; }
+    .stat { padding:25px 18px 20px 0; border-bottom:1px solid var(--border); }
+    .stat:nth-child(odd) { border-right:1px solid var(--border); }
+    .stat:nth-child(even) { padding-left:20px; }
+    .stat strong { color:var(--lime); display:block; font:500 clamp(30px,4vw,53px) var(--display); letter-spacing:-.06em; }
+    .stat small { color:var(--muted); font:11px var(--mono); text-transform:uppercase; letter-spacing:.1em; }
+    .spec-card { background:var(--panel); border:1px solid var(--border); padding:34px; position:relative; overflow:hidden; }
+    .spec-card:before { content:""; position:absolute; width:230px; height:230px; border-radius:50%; background:var(--aqua); filter:blur(90px); opacity:.12; right:-70px; top:-70px; }
+    .spec-card h3 { font-size:34px; margin-bottom:30px; }
+    .spec-row { display:flex; justify-content:space-between; gap:20px; border-bottom:1px solid var(--border); padding:17px 0; font-size:14px; }
+    .spec-row span:first-child { color:var(--muted); }
+    .spec-row span:last-child { text-align:right; font-weight:700; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; margin-bottom:58px; gap:20px; }
+    .section-head p { color:var(--muted); max-width:280px; font-size:14px; }
+    .stages { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .stage { min-height:340px; padding:31px; border:1px solid var(--border); background:linear-gradient(145deg,var(--panel),rgba(14,32,36,.45)); position:relative; overflow:hidden; transition:.4s; }
+    .stage:hover { border-color:var(--lime); transform:translateY(-7px); }
+    .stage:nth-child(2) { background:linear-gradient(145deg,rgba(255,131,93,.12),var(--panel)); }
+    .stage-num { color:var(--lime); font:12px var(--mono); }
+    .stage h3 { font-size:43px; margin-top:100px; margin-bottom:15px; }
+    .stage p { color:var(--muted); max-width:390px; }
+    .stage .arrow { position:absolute; right:28px; top:27px; color:var(--lime); font-size:25px; }
+    .stage-graphic { position:absolute; width:280px; height:100px; right:-90px; bottom:32px; border:1px solid var(--lime); transform:rotate(-15deg); opacity:.22; border-radius:50%; box-shadow:0 0 0 18px rgba(0,229,255,.06),0 0 0 36px rgba(0,229,255,.04); }
+    .prize-zone { background:var(--cream); color:var(--ink); }
+    .prize-zone .eyebrow { color:#0284c7; }
+    .prize-zone .eyebrow:before { background:#0284c7; }
+    .prize-grid { display:grid; grid-template-columns:1.05fr 1fr; gap:80px; align-items:center; }
+    .prize-zone h2 { color:var(--ink); }
+    .prize-note { color:#53605e; max-width:440px; margin-top:25px; }
+    .prizes { display:flex; align-items:end; justify-content:center; gap:12px; }
+    .prize { width:31%; text-align:center; padding:32px 12px 24px; border:1px solid rgba(7,16,19,.16); position:relative; }
+    .prize:nth-child(1) { order:2; min-height:280px; background:var(--lime); color:var(--ink); }
+    .prize:nth-child(2) { order:1; min-height:220px; background:#d8ded3; }
+    .prize:nth-child(3) { order:3; min-height:185px; background:#e8c5ad; }
+    .prize .place { font:12px var(--mono); text-transform:uppercase; }
+    .prize b { display:block; font:800 clamp(30px,4vw,46px) var(--display); letter-spacing:-.06em; margin:32px 0 8px; }
+    .prize span { font-size:11px; }
+    .timeline { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--border); }
+    .time-item { padding:25px 22px 0 0; min-height:150px; border-right:1px solid var(--border); margin-right:22px; }
+    .time-item:last-child { border-right:0; }
+    .time-item time { color:var(--lime); font:12px var(--mono); }
+    .time-item h3 { font-size:22px; margin:19px 0 10px; letter-spacing:-.03em; }
+    .time-item p { color:var(--muted); font-size:13px; }
+    .register { background:var(--panel); border:1px solid var(--line); padding:72px 8%; display:flex; align-items:center; justify-content:space-between; gap:45px; overflow:hidden; position:relative; }
+    .register:after { content:""; position:absolute; width:440px; height:440px; border:1px solid rgba(101,231,209,.22); border-radius:50%; right:-160px; top:-170px; box-shadow:0 0 0 28px rgba(101,231,209,.04),0 0 0 58px rgba(101,231,209,.03); }
+    .register h2 { font-size:clamp(40px,5vw,70px); position:relative; z-index:1; }
+    .register h2 span { color:var(--lime); }
+    .register p { color:var(--muted); max-width:350px; margin-top:20px; }
+    .register .btn { position:relative; z-index:2; white-space:nowrap; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .contact-card { border:1px solid var(--border); padding:29px; background:var(--panel); }
+    .contact-card h3 { font-size:26px; margin:14px 0 26px; }
+    .contact-card p { color:var(--muted); font-size:14px; margin:7px 0; }
+    .contact-card a { color:var(--aqua); }
+    footer { border-top:1px solid var(--border); padding:30px 0; color:var(--muted); font-size:12px; }
+    .footer-row { display:flex; justify-content:space-between; gap:20px; align-items:center; }
+    .socials { display:flex; gap:18px; color:var(--cream); }
+    .socials a:hover { color:var(--lime); }
+    .btn.download {
+      background: rgba(0, 229, 255, 0.1); border-color: var(--lime); color: var(--lime);
+    }
+    .btn.download:hover {
+      background: var(--lime); color: var(--ink); box-shadow: 0 10px 35px rgba(0, 229, 255, 0.3);
+    }
+    .rule-download-card {
+      background: linear-gradient(135deg, rgba(14,32,36,0.95), rgba(6,16,20,0.98));
+      border: 1px solid var(--lime); padding: 32px; border-radius: 4px;
+      display: flex; align-items: center; justify-content: space-between; gap: 30px;
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.12); margin-top: 35px; position: relative; overflow: hidden;
+    }
+    .rule-download-card:before {
+      content: ""; position: absolute; width: 150px; height: 150px; border-radius: 50%;
+      background: var(--lime); filter: blur(70px); opacity: 0.1; right: -30px; top: -30px;
+    }
+    .rule-download-info h3 { font-size: 24px; color: var(--cream); margin-bottom: 8px; letter-spacing: -.02em; }
+    .rule-download-info p { color: var(--muted); font-size: 14px; max-width: 580px; }
+    .rules-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
+    }
+    .rule-card {
+      background: var(--panel); border: 1px solid var(--border); padding: 26px 22px;
+      position: relative; transition: .3s ease;
+    }
+    .rule-card:hover { border-color: var(--lime); transform: translateY(-4px); }
+    .rule-card-num { color: var(--lime); font: 700 12px var(--mono); letter-spacing: .1em; display: block; margin-bottom: 12px; }
+    .rule-card h4 { font-size: 18px; color: var(--cream); margin-bottom: 10px; letter-spacing: -.02em; }
+    .rule-card p { color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .rule-card ul { padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 8px; }
+    .footer-logos { display:flex; align-items:center; gap:16px; }
+    .footer-logo-img { height:36px; object-fit:contain; }
+    .organizer-badge-card {
+      display: flex; align-items: center; gap: 20px; padding: 20px;
+      background: var(--panel); border: 1px solid var(--border); margin-top: 25px;
+    }
+    .organizer-badge-card .logos { display: flex; align-items: center; gap: 14px; }
+    .organizer-badge-card img { width: 44px; height: 44px; object-fit: contain; }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+    @media(max-width:960px) {
+      .wrap { width:min(100% - 32px,1180px); }
+      .nav { padding: 14px 0; height: auto; min-height: 60px; }
+      .brand-divider { display:none; }
+      .college-sub { display:none; }
+      .college-name { font-size: 13px; }
+      .nav-links { display:none; position:absolute; top:65px; left:-16px; right:-16px; padding:25px 16px; background:rgba(6,16,20,0.97); flex-direction:column; border-bottom:1px solid var(--border); z-index:200; backdrop-filter:blur(20px); }
+      .nav-links.open { display:flex; }
+      .menu { display:block; }
+      .nav .btn { display:none; }
+      .hero { min-height: auto; }
+      .hero-grid { grid-template-columns: 1fr; gap: 24px; padding: 28px 0 36px; text-align: center; }
+      .hero-left { align-items: center; }
+      .hero-trust-badge { margin-bottom: 12px; }
+      .hero-title-wrap { max-width: 80%; margin: 0 auto; }
+      .hero-title-img { left: 0; }
+      .hero-tagline { justify-content: center; }
+      .hero-right { align-items: center; text-align: center; }
+      .hero-headline { font-size: clamp(26px, 7vw, 36px); text-align: center; }
+      .hero-subtitle { text-align: center; }
+      .hero-stats { justify-content: center; }
+      .hero-actions { justify-content: center; }
+      .countdown-wrap { width: 100%; }
+      .countdown-grid { justify-content: center; }
+      .hero-accent-ring { display: none; }
+      .hero-sub,.section-head,.register,.footer-row,.rule-download-card { display:block; }
+      .rule-download-card .btn { margin-top: 20px; }
+      .rules-grid { grid-template-columns: 1fr; }
+      section { padding:60px 0; }
+      .intro-grid,.prize-grid { grid-template-columns:1fr; gap:40px; }
+      .stages,.contact-grid { grid-template-columns:1fr; }
+      .stage { min-height:280px; }
+      .stage h3 { margin-top:60px; }
+      .timeline { grid-template-columns:1fr; }
+      .time-item { border-right:0; border-bottom:1px solid var(--border); margin:0; padding-bottom:20px; }
+      .register .btn { margin-top:30px; }
+      .footer-row > * { margin-bottom:18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <div class="brand-wrap">
+      <a class="college-brand" href="#">
+        <img src="assets/college-logo.png" alt="V.S.B. Engineering College Logo" class="college-logo-img">
+        <div class="college-info">
+          <span class="college-name">V.S.B. ENGINEERING COLLEGE</span>
+          <span class="college-sub">Karur · Autonomous Institution</span>
+        </div>
+      </a>
+      <div class="brand-divider"></div>
+      <a class="event-brand" href="#">
+        <img src="assets/club-logo.png" alt="Electronics Club Logo" class="club-logo-img">
+        <span>LiRO <span style="color:var(--lime)">2K26</span></span>
+      </a>
+    </div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about">The Event</a>
+      <a href="#stages">Race Format</a>
+      <a href="#rules">Rules & Specs</a>
+      <a href="#prizes">Prizes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a class="btn download" href="assets/LiRO_2K26_Rulebook.pdf" download="LiRO_2K26_Official_Rule_Book.pdf" target="_blank" style="min-height:44px;padding:0 16px;font-size:12px;">Rule Book 📄</a>
+      <a class="btn" href="https://forms.gle/zG1RuCNFyGProJJj8" target="_blank" style="min-height:44px;padding:0 18px;font-size:12px;">Register <span>↗</span></a>
+    </div>
+    <button class="menu" aria-label="Open menu" id="menu">☰</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <canvas id="liquid"></canvas>
+      <div class="hero-accent-ring r1"></div>
+      <div class="hero-accent-ring r2"></div>
+      <div class="hero-accent-ring r3"></div>
+
+      <div class="wrap hero-inner">
+        <div class="hero-grid">
+
+          <!-- ═══ LEFT: Visual centerpiece (55%) ═══ -->
+          <div class="hero-left">
+            <div class="hero-trust-badge">
+              <span class="trust-dot"></span>
+              Intercollege Championship · 13 Oct 2026
+            </div>
+            <div class="hero-event-type">Line Follower Robot Competition</div>
+            <div class="hero-title-wrap">
+              <img src="assets/liro-title.png" alt="LiRO 2K26 — Line Follower Robot" class="hero-title-img">
+            </div>
+            <div class="hero-tagline">
+              Department of ECE <span>×</span> Electronics Club
+            </div>
+            <div class="hero-institution">
+              <img src="assets/college-logo.png" alt="VSBEC">
+              <div class="hero-institution-info">
+                <span class="hero-institution-name">V.S.B. Engineering College</span>
+                <span class="hero-institution-sub">Karur · Autonomous Institution</span>
+              </div>
+            </div>
+            <div class="hero-event-date">
+              <span class="date-num">13</span>
+              <div class="date-label">
+                <span>October 2026</span>
+                <span>Dr. V.C.K Auditorium</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ RIGHT: Conversion content (45%) ═══ -->
+          <div class="hero-right">
+            <h1 class="hero-headline">
+              Think. Build.<br><em>Race.</em>
+            </h1>
+            <p class="hero-subtitle">
+              An intercollege arena where <strong>engineering minds</strong> turn autonomous circuitry, onboard sensing and control into pure momentum.
+            </p>
+
+            <!-- Stats pills -->
+            <div class="hero-stats">
+              <div class="hero-stat-pill"><span class="pill-val">₹10K</span><span class="pill-label">Prize Pool</span></div>
+              <div class="hero-stat-pill"><span class="pill-val">03</span><span class="pill-label">Per Team</span></div>
+              <div class="hero-stat-pill"><span class="pill-val">03</span><span class="pill-label">Attempts</span></div>
+              <div class="hero-stat-pill"><span class="pill-val">Top 15</span><span class="pill-label">Advance</span></div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="countdown-wrap">
+              <div class="countdown-label"><span>EVENT COUNTDOWN</span> · 13 OCT 2026</div>
+              <div class="countdown-grid" id="countdown">
+                <div class="countdown-box"><strong id="cd-days">00</strong><small>DAYS</small></div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-box"><strong id="cd-hours">00</strong><small>HOURS</small></div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-box"><strong id="cd-mins">00</strong><small>MINS</small></div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-box"><strong id="cd-secs">00</strong><small>SECS</small></div>
+              </div>
+            </div>
+
+            <!-- CTAs -->
+            <div class="hero-actions">
+              <a class="btn primary" href="https://forms.gle/zG1RuCNFyGProJJj8" target="_blank">🏁 Register Now ↗</a>
+              <a class="btn download" href="assets/LiRO_2K26_Rulebook.pdf" download="LiRO_2K26_Official_Rule_Book.pdf" target="_blank">📄 Rule Book</a>
+            </div>
+
+            <!-- Urgency + Venue -->
+            <div class="hero-deadline">
+              <span class="deadline-badge">⚡ CLOSING SOON</span>
+              <span class="deadline-text">Registration Closes <strong>09 October 2026</strong></span>
+            </div>
+            <div class="hero-date-chip">
+              <i>📍</i> <span>Dr. V.C.K Auditorium</span> · VSBEC, Karur
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee"><div class="marquee-track">SPEED <i>✦</i> PRECISION <i>✦</i> 100% AUTONOMOUS <i>✦</i> 3 ATTEMPTS <i>✦</i> TOP 15 FINALISTS <i>✦</i> ₹10,000 PRIZE POOL <i>✦</i> SPEED <i>✦</i> PRECISION <i>✦</i> 100% AUTONOMOUS <i>✦</i> 3 ATTEMPTS <i>✦</i> TOP 15 FINALISTS <i>✦</i> ₹10,000 PRIZE POOL <i>✦</i></div></div>
+
+    <section id="about">
+      <div class="wrap intro-grid reveal">
+        <div>
+          <div class="eyebrow">01 / The mission</div>
+          <h2 style="margin-top:25px">Built to<br><span style="color:var(--lime)">move.</span></h2>
+          <p class="intro-text">LiRO 2K26 is a high-energy <b>Line Follower Robot Competition</b> organized by the Department of Electronics and Communication Engineering in association with the Electronics Club at V.S.B. Engineering College, Karur.</p>
+          
+          <div class="organizer-badge-card">
+            <div class="logos">
+              <img src="assets/college-logo.png" alt="V.S.B. Engineering College Logo">
+              <img src="assets/club-logo.png" alt="Electronics Club Logo">
+            </div>
+            <div>
+              <strong style="display:block;color:var(--cream);font-size:14px">Department of ECE & Electronics Club</strong>
+              <small style="color:var(--muted);font-family:var(--mono);font-size:11px">V.S.B. ENGINEERING COLLEGE, KARUR</small>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><strong>₹10K</strong><small>Prize pool</small></div>
+            <div class="stat"><strong>03</strong><small>Members per team</small></div>
+            <div class="stat"><strong>03</strong><small>Official Attempts</small></div>
+            <div class="stat"><strong>₹200</strong><small>Per person</small></div>
+          </div>
+        </div>
+        <div class="spec-card">
+          <div class="eyebrow">Event intelligence</div>
+          <h3>Official Event<br>Specifications.</h3>
+          <div class="spec-row"><span>Organized by</span><span>Dept. of ECE & Electronics Club</span></div>
+          <div class="spec-row"><span>Institution</span><span>V.S.B. Engineering College, Karur</span></div>
+          <div class="spec-row"><span>Event Date</span><span style="color:var(--lime)">13 October 2026</span></div>
+          <div class="spec-row"><span>Registration Closes</span><span style="color:var(--orange)">09 October 2026</span></div>
+          <div class="spec-row"><span>Venue</span><span>Dr. V.C.K Auditorium, VSBEC</span></div>
+          <div class="spec-row"><span>Eligibility</span><span>Open to all Engineering Students</span></div>
+          <div class="spec-row"><span>Team Format</span><span>3 Members / Team</span></div>
+          <div class="spec-row"><span>Race Attempts</span><span>3 Official Runs Per Team</span></div>
+          <div class="spec-row"><span>Advancement</span><span>Top 15 Teams Qualify for Finals</span></div>
+          <div class="spec-row"><span>Certificates</span><span>Provided to All Participants</span></div>
+          <div class="spec-row"><span>Registration Fee</span><span>₹200 / person</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stages">
+      <div class="wrap reveal">
+        <div class="section-head">
+          <div><div class="eyebrow">02 / Race format</div><h2 style="margin-top:24px">Two stages.<br>One <span style="color:var(--lime)">champion.</span></h2></div>
+          <p>Your robot. Your logic. Your moment. Master every bend and claim the fastest time on the official leaderboard.</p>
+        </div>
+        <div class="stages">
+          <article class="stage">
+            <span class="stage-num">STAGE / 01 · QUALIFYING RACE</span><span class="arrow">↗</span><div class="stage-graphic"></div>
+            <h3>Qualifying<br>Stage</h3>
+            <p>All registered and approved teams participate. Each team receives <strong>3 official attempts</strong> on the obstacle-laden track. The <strong>top 15 teams</strong> with the fastest valid runs advance to the Final.</p>
+          </article>
+          <article class="stage">
+            <span class="stage-num">STAGE / 02 · GRAND FINALE</span><span class="arrow">↗</span><div class="stage-graphic"></div>
+            <h3>Final<br>Showdown</h3>
+            <p>Conducted exclusively among the <strong>15 qualified finalist teams</strong>. Precision engineering meets maximum speed to decide the champion of LiRO 2K26.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" style="background:var(--ink-2);border-block:1px solid var(--border)">
+      <div class="wrap reveal">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">03 / Official regulations</div>
+            <h2 style="margin-top:24px">Competition<br><span style="color:var(--lime)">rule book.</span></h2>
+          </div>
+          <p>Official technical guidelines and competition policies established by the Chairman & Committee.</p>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule-card">
+            <span class="rule-card-num">01 / ROBOT REQUIREMENTS</span>
+            <h4>Autonomous Operation</h4>
+            <p>The robot must be 100% capable of autonomous line following using onboard sensing and control circuitry during all official runs.</p>
+            <ul>
+              <li>Strictly <strong>NO manual or remote operation</strong> permitted.</li>
+              <li>Pre-race technical safety inspection required.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card">
+            <span class="rule-card-num">02 / TRACK SPECIFICATIONS</span>
+            <h4>Track & Obstacles</h4>
+            <p>The competition track features a smooth <strong>white surface with a black line</strong> and includes tactical obstacles and challenging paths.</p>
+            <ul>
+              <li>Marking arrows indicate intended path direction.</li>
+              <li>Robot must maintain continuous line tracking.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card">
+            <span class="rule-card-num">03 / RACE PROCEDURE</span>
+            <h4>3 Official Attempts</h4>
+            <p>Each team is allotted <strong>3 official attempts</strong>. The fastest valid run determines qualification and leaderboard rank.</p>
+            <ul>
+              <li>Physical human intervention invalidates the run.</li>
+              <li>Only official judge timing is recorded.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card">
+            <span class="rule-card-num">04 / SAFETY INSPECTION</span>
+            <h4>Electrical & Safety</h4>
+            <p>Participants are fully responsible for the safe handling of batteries and electrical/electronic systems.</p>
+            <ul>
+              <li>Robots deemed unsafe must be fixed prior to race.</li>
+              <li>Follow all safety protocols from event marshals.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card">
+            <span class="rule-card-num">05 / TEAM COMPOSITION</span>
+            <h4>3 Members / Team</h4>
+            <p>Each team consists of 3 registered engineering students. Only verified members may represent the team on race day.</p>
+            <ul>
+              <li>Any member changes must be pre-approved.</li>
+              <li>Participation certificates for all registered members.</li>
+            </ul>
+          </div>
+
+          <div class="rule-card">
+            <span class="rule-card-num">06 / FAIR PLAY & JUDGING</span>
+            <h4>Official Authority</h4>
+            <p>Event officials supervise run validity, track rules, and fair play. Decisions of the judges and faculty committee are final.</p>
+            <ul>
+              <li>Track interference results in disqualification.</li>
+              <li>Respectful and professional conduct required.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Download Banner Card -->
+        <div class="rule-download-card">
+          <div class="rule-download-info">
+            <div class="eyebrow" style="margin-bottom:8px">Official Document · Verified</div>
+            <h3>Download Complete LiRO 2K26 Rule Book</h3>
+            <p>Get the complete official PDF containing detailed track dimensions, scoring procedures, penalty rubrics, and committee contact directories.</p>
+          </div>
+          <a class="btn download" href="assets/LiRO_2K26_Rulebook.pdf" download="LiRO_2K26_Official_Rule_Book.pdf" target="_blank" style="white-space:nowrap;min-height:54px;padding:0 28px;">
+            📄 Download Rule Book (PDF) <span>↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="prize-zone" id="prizes">
+      <div class="wrap prize-grid reveal">
+        <div>
+          <div class="eyebrow">04 / The reward</div>
+          <h2 style="margin-top:25px">Race for<br>the <span style="color:#0284c7">podium.</span></h2>
+          <p class="prize-note">Bring your best autonomous build. Take home the cash prize, trophy, and institutional recognition. Official participation certificates will be awarded to all participants.</p>
+        </div>
+        <div class="prizes">
+          <div class="prize"><span class="place">1st prize</span><b>₹5,000</b><span>🥇 Champion</span></div>
+          <div class="prize"><span class="place">2nd prize</span><b>₹3,000</b><span>🥈 Runner Up</span></div>
+          <div class="prize"><span class="place">3rd prize</span><b>₹2,000</b><span>🥉 Finalist</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap reveal">
+        <div class="section-head">
+          <div><div class="eyebrow">05 / Event timeline</div><h2 style="margin-top:24px">Mark your<br><span style="color:var(--lime)">calendar.</span></h2></div>
+          <p>Key dates and milestones for LiRO 2K26. Secure your slot before the deadline closes.</p>
+        </div>
+        <div class="timeline">
+          <div class="time-item"><time>NOW → 09 OCT 2026</time><h3>Registration Closes</h3><p>Submit team details (3 members) and fee via the official Google Form.</p></div>
+          <div class="time-item"><time>13 OCT 2026 · MORNING</time><h3>Stage 1: Qualifying</h3><p>Safety inspection and 3 official attempts. Top 15 teams advance.</p></div>
+          <div class="time-item"><time>13 OCT 2026 · FINALE</time><h3>Stage 2: Final & Awards</h3><p>Championship race among the 15 finalists & ₹10K prize distribution.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:10px">
+      <div class="wrap reveal">
+        <div class="register">
+          <div>
+            <div class="eyebrow">Your next move</div>
+            <h2 style="margin-top:20px">Ready to<br><span>race?</span></h2>
+            <p>Registration and payment are handled through the official Google Form. Team size: 3 members. Fee: ₹200 per person. Deadline: 09 October 2026.</p>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:2;">
+            <a class="btn download" href="assets/LiRO_2K26_Rulebook.pdf" download="LiRO_2K26_Official_Rule_Book.pdf" target="_blank">📄 Rule Book (PDF)</a>
+            <a class="btn" href="https://forms.gle/zG1RuCNFyGProJJj8" target="_blank">Register on Google Form ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap reveal">
+        <div class="section-head"><div><div class="eyebrow">06 / Connect</div><h2 style="margin-top:24px">Questions?<br><span style="color:var(--lime)">We're here.</span></h2></div><p>Reach out to the LiRO coordination committee for event, technical or registration queries.</p></div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="eyebrow">Student coordinators</div>
+            <h3>Talk to the team</h3>
+            <p><strong>Rubahan P</strong></p>
+            <p><a href="tel:7200709381">7200709381</a> · <a href="mailto:rubahan26@gmail.com">rubahan26@gmail.com</a></p>
+            <br>
+            <p><strong>Sanjay B</strong></p>
+            <p><a href="tel:9003536232">9003536232</a> · <a href="mailto:sanjayloq22@gmail.com">sanjayloq22@gmail.com</a></p>
+          </div>
+          <div class="contact-card">
+            <div class="eyebrow">Faculty coordinator</div>
+            <h3>Guided by experience</h3>
+            <p><strong>Mr. Anandhakumar. P</strong></p>
+            <p>Head of Department – Electronics & Communication Engineering</p>
+            <p><a href="tel:8870188907">8870188907</a></p>
+            <br>
+            <p style="color:var(--aqua)">Dr. V.C.K Auditorium, V.S.B. Engineering College, Karur</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <div class="footer-logos">
+        <img src="assets/college-logo.png" alt="V.S.B. Engineering College Logo" class="footer-logo-img">
+        <img src="assets/club-logo.png" alt="Electronics Club Logo" class="footer-logo-img">
+        <div class="college-info">
+          <span class="college-name" style="font-size:13px">V.S.B. ENGINEERING COLLEGE</span>
+          <span class="college-sub" style="font-size:9px">Dept. of ECE · Electronics Club · Karur</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <a class="btn download" href="assets/LiRO_2K26_Rulebook.pdf" download="LiRO_2K26_Official_Rule_Book.pdf" target="_blank" style="min-height:36px;padding:0 14px;font-size:11px;">Rule Book (PDF) ↓</a>
+        <div class="socials">
+          <a href="https://www.instagram.com/vsbec_ece_?stkn=MXg4dWJybXptNHM3ZQ==" target="_blank">Electronics Club ↗</a>
+          <a href="https://www.instagram.com/vsbec_karur?stkn=MTcxYjAybmo0dWM3Nw==" target="_blank">VSBEC Official ↗</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('liquid'), ctx = canvas.getContext('2d');
+    let w, h, t = 0, points = [];
+    function resize() { w = canvas.width = innerWidth * devicePixelRatio; h = canvas.height = canvas.offsetHeight * devicePixelRatio; ctx.scale(devicePixelRatio, devicePixelRatio); w /= devicePixelRatio; h /= devicePixelRatio; }
+    function setup() { points = Array.from({length: 34}, (_, i) => ({ x: i / 33, y: .55 + Math.random() * .1, a: Math.random()*6.28, s: .3+Math.random()*.5 })); }
+    function draw() {
+      ctx.clearRect(0,0,w,h); t += .009;
+      const grad = ctx.createLinearGradient(0,0,w,h); grad.addColorStop(0,'rgba(0,229,255,.18)'); grad.addColorStop(1,'rgba(56,189,248,.04)');
+      ctx.beginPath();
+      points.forEach((p,i) => { let x=p.x*w, y=(p.y + Math.sin(t*p.s+p.a)*.1 + Math.sin(t*.6+p.x*8)*.04)*h; i ? ctx.lineTo(x,y) : ctx.moveTo(x,y); });
+      for(let i=points.length-1;i>=0;i--){let p=points[i]; let x=p.x*w,y=(p.y+.16+Math.sin(t*p.s+p.a)*.1)*h;ctx.lineTo(x,y);}
+      ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+      ctx.beginPath(); points.forEach((p,i)=>{let x=p.x*w,y=(p.y+Math.sin(t*p.s+p.a)*.1)*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}); ctx.strokeStyle='rgba(0,229,255,.24)';ctx.lineWidth=1;ctx.stroke();
+      requestAnimationFrame(draw);
+    }
+    resize(); setup(); draw(); addEventListener('resize',()=>{resize();setup()});
+    document.getElementById('menu').onclick=()=>document.getElementById('navLinks').classList.toggle('open');
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+    // Live Event Countdown Timer (Target: 13 October 2026, 09:00:00 IST)
+    const targetDate = new Date('October 13, 2026 09:00:00 GMT+0530').getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+      if (diff > 0) {
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        const daysEl = document.getElementById('cd-days');
+        const hoursEl = document.getElementById('cd-hours');
+        const minsEl = document.getElementById('cd-mins');
+        const secsEl = document.getElementById('cd-secs');
+        if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+        if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+        if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
+        if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+      } else {
+        const cdContainer = document.getElementById('countdown');
+        if (cdContainer) {
+          cdContainer.innerHTML = '<span style="color:var(--lime);font:700 15px var(--mono);letter-spacing:.1em">⚡ EVENT IS LIVE NOW!</span>';
+        }
+      }
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

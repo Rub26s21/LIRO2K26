@@ -1,0 +1,83 @@
+=== PAGE 1 ===
+LiRO – 2K26
+LINE FOLLOWER ROBOT COMPETITION
+OFFICIAL RULE BOOK
+V.S.B. Engineering College, Karur
+Department of Electronics and Communication Engineering (ECE) in association with Electronics Club 
+Date: 13 October 2026
+Venue: Dr. V.C.K Auditorium, V.S.B. Engineering College, Karur
+Eligibility: Open to all engineering students
+Team Size: 3 members
+Registration Deadline: 09 October 2026
+Registration Fee: ₹200 per person
+Participation certificates will be provided.
+1. Competition Format
+The competition consists of two stages: Qualifying Race and Final Race.
+Stage 1 – Qualifying Race: All registered and approved teams will participate.
+The top 15 teams from the qualifying stage will advance to the Final.
+Stage 2 – Final Race: The qualified teams will compete in the final stage.
+2. Robot Requirements
+The robot must be capable of autonomous line following.
+The robot must use onboard sensing and control during an official run.
+Manual or remote operation during a run is not permitted.
+3. Track Requirements
+The competition track will have a white surface with a black line.
+The track will include obstacles and challenging path elements.
+Participants must navigate the designated track while maintaining line following.
+4. Race Procedure
+Each team will be given 3 official attempts.
+The robot must be operated according to the competition rules during every official attempt.
+Marking arrows will be provided on the track to indicate the intended direction/path.
+Only valid official runs will be considered for competition ranking.
+5. Qualification & Final
+The qualifying stage will be used to determine the teams advancing to the Final.
+The fastest/valid performances in the qualifying stage will determine the 15 finalist teams according to the official event 
+procedure.
+The Final will be conducted among the 15 qualified teams.
+6. Track Deviation & Human Intervention
+The robot must remain on and follow the designated black line throughout the run.
+If the robot deviates from the designated path or loses the line, the team must follow the instructions of the event officials.
+Participants must not manually control or guide the robot during an official run.
+Any direct physical intervention with the robot during a run may result in the run being declared invalid.
+Event officials may stop a run if the robot becomes unsafe or interferes with the track or other participants.
+7. Team Rules
+Each team consists of 3 registered members.
+Only registered participants may represent the team in the competition.
+Any change to team members after registration must be communicated to and approved by the event coordinators.
+Participants are responsible for ensuring that their registration details are accurate.
+=== PAGE 2 ===
+8. Safety & Technical Inspection
+All robots may be inspected by the event officials before participation.
+Participants are responsible for the safe handling of batteries and electrical/electronic components.
+Robots that are considered unsafe by the event officials may be prevented from participating until the safety issue is resolved.
+Participants must follow all safety instructions given by event officials.
+9. Disqualification
+A team may be disqualified for violating the published competition rules.
+Use of manual or remote control during an official run may result in disqualification.
+Deliberate interference with another team's robot or the competition track may result in disqualification.
+Unsafe operation of the robot may result in disqualification.
+Providing false or misleading participant information may result in disqualification.
+Failure to follow instructions given by event officials may result in disqualification.
+The event organizers reserve the right to disqualify a team for serious or repeated violations of the competition rules.
+10. Judging
+Event officials will supervise the competition, run validity and rule compliance.
+Judges' decisions are final and must be respected by all participating teams.
+11. Prizes & Certificates
+🥇  1st Prize – ₹5,000
+🥈  2nd Prize – ₹3,000
+🥉  3rd Prize – ₹2,000
+Participation certificates will be provided.
+12. Registration
+Registration is through the official Google Form.
+Registration and payment details are provided through the official form.
+Registration Deadline: 09 October 2026
+Registration Form: https://forms.gle/zG1RuCNFyGProJJj8
+13. Contact
+ Faculty coordinator:
+      MR. ANANDHAKUMAR. P
+      Head of Department  – ECE | 8870188907
+ Student Coordinators:
+      Rubahan P | 7200709381 | rubahan26@gmail.com
+      Sanjay B | 9003536232 | sanjayloq22@gmail.com
+LiRO	–	2K26THINK.	BUILD.	RACE.
+                                                                        LiRO – 2K26  |  Official Rule Book  |  V.S.B. Engineering College, Karur
