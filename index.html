@@ -239,42 +239,120 @@
       letter-spacing: .08em; text-transform: uppercase;
     }
 
-    /* Compact countdown */
+    /* Ultra-Premium Motorsport Telemetry Countdown */
     .countdown-wrap {
-      margin-bottom: 20px; padding: 14px 18px;
-      background: linear-gradient(135deg, rgba(14,32,36,0.8), rgba(6,16,20,0.9));
-      border: 1px solid rgba(0,229,255,.18); border-radius: 6px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px rgba(0,229,255,0.05), inset 0 1px 0 rgba(255,255,255,.03);
+      margin-bottom: 22px; padding: 16px 18px 14px;
+      background: linear-gradient(135deg, rgba(8, 24, 30, 0.9) 0%, rgba(3, 12, 16, 0.98) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 12px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 229, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      position: relative; overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
     }
-    .countdown-label {
-      font: 500 10px var(--mono); color: var(--muted); letter-spacing: .12em;
-      text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+    .countdown-wrap:hover {
+      border-color: rgba(0, 229, 255, 0.45);
+      box-shadow: 0 14px 44px rgba(0, 0, 0, 0.6), 0 0 32px rgba(0, 229, 255, 0.16);
     }
-    .countdown-label span { color: var(--lime); font-weight: 700; }
-    .countdown-label:before {
-      content: ""; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--lime); box-shadow: 0 0 8px var(--lime);
-      animation: pulse 1.6s infinite ease-in-out;
+    .countdown-wrap:before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.8), rgba(255, 131, 93, 0.6), transparent);
     }
-    .countdown-grid { display: flex; align-items: center; gap: 8px; }
+    .countdown-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px; gap: 8px; flex-wrap: wrap;
+    }
+    .countdown-live-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font: 700 10px var(--mono); color: var(--lime); letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .countdown-live-badge .live-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--lime);
+      box-shadow: 0 0 10px var(--lime); animation: pulse 1.4s infinite ease-in-out;
+    }
+    .countdown-date-chip {
+      font: 600 10px var(--mono); color: var(--muted); letter-spacing: .08em;
+      padding: 3px 9px; background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.12);
+      border-radius: 20px;
+    }
+    .countdown-date-chip span:first-child { color: var(--cream); font-weight: 700; }
+    
+    .countdown-grid {
+      display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    }
     .countdown-box {
-      flex: 1; background: rgba(6, 16, 20, 0.85);
-      border: 1px solid rgba(0, 229, 255, 0.12); padding: 10px 6px;
-      text-align: center; border-radius: 4px; transition: border-color .3s, box-shadow .3s;
+      flex: 1; min-width: 60px;
+      background: linear-gradient(180deg, rgba(14, 34, 42, 0.95) 0%, rgba(5, 14, 18, 0.98) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.18);
+      border-radius: 8px; padding: 10px 4px 8px;
+      text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
-    .countdown-box:hover { border-color: rgba(0,229,255,.3); box-shadow: 0 0 16px rgba(0,229,255,.08); }
+    .countdown-box:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 229, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 229, 255, 0.2);
+    }
+    .countdown-box.secs-box {
+      border-color: rgba(255, 131, 93, 0.35);
+    }
+    .countdown-box.secs-box:hover {
+      border-color: rgba(255, 131, 93, 0.7);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(255, 131, 93, 0.3);
+    }
+    .countdown-box:before {
+      content: ""; position: absolute; left: 10%; right: 10%; top: 48%; height: 1px;
+      background: rgba(0, 229, 255, 0.12); pointer-events: none;
+    }
     .countdown-box strong {
-      display: block; font: 700 clamp(22px, 2.5vw, 30px) var(--display);
-      color: var(--lime); line-height: 1; letter-spacing: -0.02em;
+      display: block; font: 800 clamp(22px, 2.4vw, 30px) var(--display);
+      color: #ffffff; line-height: 1.05; letter-spacing: -0.02em;
+      text-shadow: 0 0 14px rgba(0, 229, 255, 0.4);
+      font-variant-numeric: tabular-nums;
+    }
+    .countdown-box.secs-box strong {
+      color: #ffb899;
+      text-shadow: 0 0 14px rgba(255, 131, 93, 0.5);
     }
     .countdown-box small {
-      font: 500 8px var(--mono); color: var(--muted);
-      letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; display: block;
+      font: 700 8px var(--mono); color: var(--lime);
+      letter-spacing: .14em; text-transform: uppercase; margin-top: 5px; display: block;
+      opacity: 0.85;
+    }
+    .countdown-box.secs-box small {
+      color: var(--orange);
     }
     .countdown-sep {
       font: 700 18px var(--display); color: var(--lime);
-      opacity: 0.45; margin-bottom: 8px;
+      opacity: 0.5; animation: blink-sep 1s infinite ease-in-out;
+      user-select: none; margin-bottom: 6px;
+    }
+    @keyframes blink-sep { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 0.2; transform: scale(0.9); } }
+
+    .countdown-footer-bar {
+      margin-top: 12px; padding-top: 8px;
+      border-top: 1px solid rgba(0, 229, 255, 0.08);
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .countdown-progress-track {
+      width: 100%; height: 3px; background: rgba(0, 229, 255, 0.08);
+      border-radius: 3px; overflow: hidden; position: relative;
+    }
+    .countdown-progress-fill {
+      width: 82%; height: 100%;
+      background: linear-gradient(90deg, var(--lime), #38bdf8, var(--orange));
+      border-radius: 3px;
+      animation: progress-pulse 3s infinite ease-in-out;
+    }
+    @keyframes progress-pulse {
+      0%, 100% { opacity: 0.85; filter: brightness(1); }
+      50% { opacity: 1; filter: brightness(1.3); }
+    }
+    .countdown-status-note {
+      font: 600 8.5px var(--mono); color: var(--muted); letter-spacing: .1em;
+      text-transform: uppercase; display: flex; align-items: center; justify-content: space-between;
     }
 
     /* Hero CTAs */
@@ -548,12 +626,13 @@
       .hero-stat-pill .pill-val { font-size: 18px; }
       .hero-stat-pill .pill-label { font-size: 8px; }
 
-      .countdown-wrap { width: 100%; padding: 14px 10px; border-radius: 10px; }
-      .countdown-grid { gap: 6px; justify-content: center; }
-      .countdown-box { padding: 8px 4px; border-radius: 6px; min-width: 58px; }
-      .countdown-box strong { font-size: 22px; }
-      .countdown-box small { font-size: 8px; }
-      .countdown-sep { font-size: 16px; margin-bottom: 4px; }
+      .countdown-wrap { width: 100%; padding: 12px 10px 10px; border-radius: 10px; }
+      .countdown-header { justify-content: center; gap: 6px; }
+      .countdown-grid { gap: 4px; justify-content: center; }
+      .countdown-box { padding: 8px 2px 6px; border-radius: 6px; min-width: 50px; }
+      .countdown-box strong { font-size: 20px; }
+      .countdown-box small { font-size: 7.5px; letter-spacing: .08em; }
+      .countdown-sep { font-size: 15px; margin-bottom: 4px; }
 
       .hero-actions {
         flex-direction: column; width: 100%; gap: 10px; margin-top: 18px; margin-bottom: 14px;
@@ -731,17 +810,43 @@
               <div class="hero-stat-pill"><span class="pill-val">Top 15</span><span class="pill-label">Advance</span></div>
             </div>
 
-            <!-- Countdown -->
+            <!-- Redesigned Telemetry Countdown -->
             <div class="countdown-wrap">
-              <div class="countdown-label"><span>EVENT COUNTDOWN</span> · 13 OCT 2026</div>
+              <div class="countdown-header">
+                <div class="countdown-live-badge">
+                  <span class="live-dot"></span>
+                  <span class="live-text">EVENT COUNTDOWN</span>
+                </div>
+                <div class="countdown-date-chip">
+                  <span>13 OCT 2026</span> · <span>09:00 AM IST</span>
+                </div>
+              </div>
               <div class="countdown-grid" id="countdown">
-                <div class="countdown-box"><strong id="cd-days">00</strong><small>DAYS</small></div>
+                <div class="countdown-box">
+                  <strong id="cd-days">00</strong>
+                  <small>DAYS</small>
+                </div>
                 <div class="countdown-sep">:</div>
-                <div class="countdown-box"><strong id="cd-hours">00</strong><small>HOURS</small></div>
+                <div class="countdown-box">
+                  <strong id="cd-hours">00</strong>
+                  <small>HOURS</small>
+                </div>
                 <div class="countdown-sep">:</div>
-                <div class="countdown-box"><strong id="cd-mins">00</strong><small>MINS</small></div>
+                <div class="countdown-box">
+                  <strong id="cd-mins">00</strong>
+                  <small>MINS</small>
+                </div>
                 <div class="countdown-sep">:</div>
-                <div class="countdown-box"><strong id="cd-secs">00</strong><small>SECS</small></div>
+                <div class="countdown-box secs-box">
+                  <strong id="cd-secs">00</strong>
+                  <small>SECS</small>
+                </div>
+              </div>
+              <div class="countdown-footer-bar">
+                <div class="countdown-progress-track">
+                  <div class="countdown-progress-fill"></div>
+                </div>
+                <span class="countdown-status-note">🏁 RACE TRACK INITIALIZING · DR. V.C.K AUDITORIUM</span>
               </div>
             </div>
 
@@ -983,6 +1088,25 @@
             <p><a href="tel:8870188907">8870188907</a></p>
             <br>
             <p style="color:var(--aqua)">Dr. V.C.K Auditorium, V.S.B. Engineering College, Karur</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="venue-map" style="padding-top:30px;">
+      <div class="wrap reveal">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">07 / Venue</div>
+            <h2 style="margin-top:24px">Find your<br><span style="color:var(--lime)">way in.</span></h2>
+          </div>
+          <p>Campus map of V.S.B. Engineering College, Karur. The event takes place at Dr. V.C.K Auditorium.</p>
+        </div>
+        <div style="border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--panel); position:relative;">
+          <img src="assets/college-map.png" alt="V.S.B. Engineering College Campus Map — LiRO 2K26 Venue" style="width:100%; height:auto; display:block; border-radius:12px;">
+          <div style="position:absolute; bottom:16px; left:16px; right:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <span style="font:700 10px var(--mono); color:var(--lime); letter-spacing:.1em; text-transform:uppercase; padding:5px 12px; background:rgba(3,9,13,0.85); border:1px solid rgba(0,229,255,0.3); border-radius:20px; backdrop-filter:blur(10px);">📍 Dr. V.C.K Auditorium</span>
+            <a href="https://maps.app.goo.gl/YourMapLink" target="_blank" style="font:600 10px var(--mono); color:var(--cream); letter-spacing:.08em; text-transform:uppercase; padding:5px 14px; background:rgba(3,9,13,0.85); border:1px solid var(--border); border-radius:20px; text-decoration:none; backdrop-filter:blur(10px);">Open in Maps ↗</a>
           </div>
         </div>
       </div>
